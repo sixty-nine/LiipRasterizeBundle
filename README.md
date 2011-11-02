@@ -212,3 +212,4 @@ The cache uses sha1 hashing to match URLs with cached files.
  - Add redirection support in the Rasterizer
  - Investigate the rendering of Flash
  - Allow rendering of a full webpage as PDF
+ - Probably nothing works on Mac and Windows without some adaptations to the code
