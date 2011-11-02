@@ -110,4 +110,38 @@ DreamcraftWebScreenshotBundle:
     prefix:   /liip-rasterize
 ```
 
+### Step 5: Test everything works fine
 
+Point a web browser to
+
+    http://your.application.url/liip-rasterize/rasterize/240/180?url=http%3A%2F%2Fphp.net
+
+You should see a thumbnail of a screenshot of the php.net website. Or else... exceptions,
+don't hesitate to report them.
+
+## Basic usage
+
+### Demo
+
+Give this URL a try:
+
+    http://your.application.url/liip-rasterize
+
+
+### Get a screenshot of a web page
+
+To get a screenshot of a webpage you can use the following URL:
+
+    http://your.application.url/liip-rasterize/rasterize/<width>/<height>?url=<url>
+
+The images take some time to load the first time, then they are cached. See below for more details.
+
+
+### Insert a screenshot in a Twig template
+
+The Twig function `rasterize(url [ , width , height ] )` allows to insert screenshots directly
+in a Twig template.
+
+```
+{{ rasterize( "http://php.net", 240, 180 ) }}
+```
