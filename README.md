@@ -17,7 +17,8 @@ To use the bundle you will need to obtain or compile a PhantomJS binary fitting 
 
 On a Debian compatible system you can do the following to compile your version of PhantomJS:
 
-```sudo apt-get install libqt4-dev libqtwebkit-dev qt4-qmake
+``` bash
+sudo apt-get install libqt4-dev libqtwebkit-dev qt4-qmake
 git clone git://github.com/ariya/phantomjs.git && cd phantomjs
 git checkout 1.3
 qmake-qt4 && make
