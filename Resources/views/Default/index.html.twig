@@ -1,0 +1,41 @@
+<style>
+img {
+    border:  1px solid #CDCDCD;
+}
+div.content {
+    width: 600px;
+    margin: 0 auto 0 auto;
+}
+div.thumb {
+    float: left;
+    margin: 0 15px 20px 0;
+}
+</style>
+
+<div class="content">
+
+    <h3>Rasterize Twig extension demo</h3>
+    <p>The first time the script loads the images take some seconds to load, then the page reloads very fast because the images are cached for 5 minutes.</p>
+    <p>These are the websites of some of the technologies used here:</p>
+
+    <div class="thumb">
+        <b>http://php.net</b><br/>
+        {{rasterize("http://php.net", 240, 180)}}
+    </div>
+
+    <div class="thumb">
+        <b>http://symfony.com</b><br/>
+        {{rasterize("http://symfony.com", 240, 180)}}
+    </div>
+
+    <div class="thumb">
+        <b>http://phantomjs.org</b><br/>
+        {{rasterize("http://phantomjs.org", 240, 180)}}
+    </div>
+
+    <div class="thumb">
+        <b>http://twig.sensiolabs.org/</b><br/>
+        {{rasterize("http://twig.sensiolabs.org/", 240, 180)}}
+    </div>
+
+</div>

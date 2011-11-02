@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="LiipRasterizeBundle_demo" pattern="/">
+        <default key="_controller">LiipRasterizeBundle:Default:demo</default>
+    </route>
+
+    <route id="LiipRasterizeBundle_rasterize" pattern="/rasterize/{width}/{height}">
+        <default key="_controller">LiipRasterizeBundle:Default:index</default>
+        <default key="width">1024</default>
+        <default key="height">768</default>
+        <requirement key="width">\d+</requirement>
+        <requirement key="height">\d+</requirement>
+    </route>
+
+</routes>

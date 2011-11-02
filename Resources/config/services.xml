@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="liip_rasterize.phantomjs" class="Liip\RasterizeBundle\Helper\PhantomJs">
+            <argument>%liip_rasterize.phantomjs.binary%</argument>
+            <argument>%liip_rasterize.xvfb.display%</argument>
+        </service>
+
+        <service id="liip_rasterize.cache" class="Liip\RasterizeBundle\Helper\Cache">
+            <argument>%liip_rasterize.tmp_dir%</argument>
+        </service>
+
+        <service id="liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Helper\Rasterizer">
+            <argument type="service" id="liip_rasterize.phantomjs" />
+            <argument>%liip_rasterize.phantomjs.rasterize_script%</argument>
+            <argument type="service" id="liip_rasterize.cache" />
+        </service>
+
+        <service id="twig.extension.liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Twig\Extension\RasterizerExtension" public="true">
+            <argument type="service" id="router" />
+            <tag name="twig.extension" />
+        </service>
+
+    </services>
+
+</container>
