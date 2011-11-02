@@ -182,6 +182,30 @@ The options are:
 
  - `cache.ttl`- The time to live of temporary files in seconds. Defaults to 5 minutes.
 
+
+### How images are cached
+
+Rendering a screenshot of a webpage is time consuming because the page needs to be fetched and
+rendered by PhantomJS. On the other hand resizing the images is an easy and fast process.
+
+This is why this bundle uses a two step caching mechanism for the images.
+
+What happens exactly when you request a screenshot is the following:
+
+ - the bundle checks if a full size screenshot exists in the cache
+
+ - if not or it has expired, PhantomJS is used to fetch and render the image
+
+ - the bundle checks if a resized version of the image that fits the request exists in the cache
+
+ - if not or it has expired, the bundle creates a resized version of the full size screenshot
+
+ - the resized version of the image is returned
+
+
+The cache uses sha1 hashing to match URLs with cached files.
+
+
 ### TODO
 
  - Add viewport options for the twig rasterize function
