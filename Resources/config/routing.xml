@@ -5,11 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="LiipRasterizeBundle_demo" pattern="/">
-        <default key="_controller">LiipRasterizeBundle:Default:demo</default>
+        <default key="_controller">liip_rasterize.default.controller:demoAction</default>
     </route>
 
     <route id="LiipRasterizeBundle_rasterize" pattern="/rasterize/{width}/{height}">
-        <default key="_controller">LiipRasterizeBundle:Default:index</default>
+        <default key="_controller">liip_rasterize.default.controller:indexAction</default>
         <default key="width">1024</default>
         <default key="height">768</default>
         <requirement key="width">\d+</requirement>

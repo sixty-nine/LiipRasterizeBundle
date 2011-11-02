@@ -2,30 +2,44 @@
 
 namespace Liip\RasterizeBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response,
-    Liip\RasterizeBundle\Helper\PhantomJs;
+    Symfony\Component\Routing\RouterInterface,
+    Symfony\Bundle\FrameworkBundle\Templating\EngineInterface,
+    Liip\RasterizeBundle\Helper\Rasterizer;
 
 
-class DefaultController extends Controller
+class DefaultController
 {
-    public function indexAction($_route, $width, $height)
+    protected $router;
+
+    protected $rasterizer;
+
+    protected $templating;
+
+    public function __construct(RouterInterface $router, EngineInterface $templating, Rasterizer $rasterizer)
     {
-        $url = $this->container->get('request')->get('url');
+        $this->router = $router;
+        $this->rasterizer = $rasterizer;
+        $this->templating = $templating;
+    }
+
+    public function indexAction($_route, Request $request, $width, $height)
+    {
+        $url = $request->get('url');
 
         // Prevent re-entrant calling or apache will crash!
-        $selfurl = addcslashes($this->generateUrl($_route), ':/?&=.');
+        $selfurl = addcslashes($this->router->generate($_route), ':/?&=.');
         if (preg_match("/$selfurl/", $url)) {
             throw new \InvalidArgumentException("Re-entrant call to rasterize script: $url.");
         }
 
-        $rasterizer = $this->container->get('liip_rasterize.rasterizer');
-        $content = $rasterizer->rasterize($url, $width, $height);
+        $content = $this->rasterizer->rasterize($url, $width, $height);
         return new Response($content, 200, array('Content-Type' => 'image/png'));
     }
 
     public function demoAction()
     {
-        return $this->render('LiipRasterizeBundle:Default:index.html.twig');
+        return $this->templating->renderResponse('LiipRasterizeBundle:Default:index.html.twig');
     }
 }

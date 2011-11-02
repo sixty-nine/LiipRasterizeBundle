@@ -25,6 +25,12 @@
             <argument>%liip_rasterize.rasterize_viewport.height%</argument>
         </service>
 
+        <service id="liip_rasterize.default.controller" class="Liip\RasterizeBundle\Controller\DefaultController">
+            <argument type="service" id="router" />
+            <argument type="service" id="templating" />
+            <argument type="service" id="liip_rasterize.rasterizer" />
+        </service>
+
         <service id="twig.extension.liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Twig\Extension\RasterizerExtension" public="true">
             <argument type="service" id="router" />
             <tag name="twig.extension" />
