@@ -2,6 +2,9 @@
 
 namespace Liip\RasterizeBundle\Helper;
 
+use Liip\RasterizeBundle\Helper\Cache,
+    Liip\RasterizeBundle\Helper\PhantomJs;
+
 class Rasterizer
 {
     /**
@@ -22,18 +25,6 @@ class Rasterizer
     protected $cache;
 
     /**
-     * Prefix to prepend to temporary file names
-     * @var string
-     */
-    protected $file_prefix;
-
-    /**
-     * Time to live in seconds for temporary files
-     * @var int
-     */
-    protected $ttl;
-
-    /**
      * Viewport width
      * @var int
      */
@@ -47,21 +38,18 @@ class Rasterizer
 
     /**
      * @throws \InvalidArgumentException
-     * @param $phantomjs An instance of the PhantomJS helper
+     * @param \Liip\RasterizeBundle\Helper\PhantomJs $phantomjs instance of the PhantomJS helper
+     * @param \Liip\RasterizeBundle\Helper\Cache $cache
      * @param $rasterize_script The path of the rsaterize script to use
-     * @param $cache
-     * @param string $file_prefix The prefix to prepend to temporary files
-     * @param int $ttl The time to live in seconds for temporary files
      * @param int $width The width of the viewport
      * @param int $height The height of the viewport
+     * @return \Liip\RasterizeBundle\Helper\Rasterizer
      */
-    public function __construct($phantomjs, $rasterize_script, $cache, $file_prefix = 'raster_', $ttl = 300, $width = 1024, $height = 768)
+    public function __construct(PhantomJs $phantomjs, Cache $cache, $rasterize_script, $width = 1024, $height = 768)
     {
         $this->cache = $cache;
         $this->phantomjs = $phantomjs;
         $this->rasterize_script = $rasterize_script;
-        $this->file_prefix = $file_prefix;
-        $this->ttl = $ttl;
         $this->width = $width;
         $this->height = $height;
     }

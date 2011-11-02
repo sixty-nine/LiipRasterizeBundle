@@ -12,13 +12,17 @@
         </service>
 
         <service id="liip_rasterize.cache" class="Liip\RasterizeBundle\Helper\Cache">
-            <argument>%liip_rasterize.tmp_dir%</argument>
+            <argument>%liip_rasterize.cache.path%</argument>
+            <argument>%liip_rasterize.cache.extension%</argument>
+            <argument>%liip_rasterize.cache.ttl%</argument>
         </service>
 
         <service id="liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Helper\Rasterizer">
             <argument type="service" id="liip_rasterize.phantomjs" />
-            <argument>%liip_rasterize.phantomjs.rasterize_script%</argument>
             <argument type="service" id="liip_rasterize.cache" />
+            <argument>%liip_rasterize.phantomjs.rasterize_script%</argument>
+            <argument>%liip_rasterize.rasterize_viewport.width%</argument>
+            <argument>%liip_rasterize.rasterize_viewport.height%</argument>
         </service>
 
         <service id="twig.extension.liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Twig\Extension\RasterizerExtension" public="true">

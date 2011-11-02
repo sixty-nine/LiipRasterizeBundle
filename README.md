@@ -145,3 +145,46 @@ in a Twig template.
 ```
 {{ rasterize( "http://php.net", 240, 180 ) }}
 ```
+
+## Configuration
+
+The default configuration for the bundle looks like this:
+
+``` yaml
+liip_rasterize:
+    phantomjs.binary: %liip_rasterize.root_dir%/Resources/bin/phantomjs
+    phantomjs.rasterize_script: %liip_rasterize.root_dir%/Resources/bin/rasterize.js
+    xvfb.display: 99
+    rasterize_viewport.width: 1024
+    rasterize_viewport.height: 768
+    cache.path: %kernel.cache_dir%
+    cache.extension: png
+    cache.ttl: 300
+```
+
+The options are:
+
+ - `phantomjs.binary` - Full path to the PhantomJS binary to use.
+
+ - `phantomjs.rasterize_script` - Full path to the PhantomJS rasterize script. Override if
+    you want to use your own.
+
+ - `xvfb.display` - The display number to use with XVFB.
+
+ - `rasterize_viewport.width`, `rasterize_viewport.height` - Dimensions of the viewport to
+    use when the screenshots of the webpages are rendered.
+
+ - `cache.path` - The path where to store the temporary files. The directory must be
+    writtable by Apache. Usually you will use the application cache dir.
+
+ - `cache.extension` - Extension to use for temporary files. This should go away with
+    future releases of the bundle.
+
+ - `cache.ttl`- The time to live of temporary files in seconds. Defaults to 5 minutes.
+
+### TODO
+
+ - Add viewport options for the twig rasterize function
+ - Add redirection support in the Rasterizer
+ - Investigate the rendering of Flash
+ - Allow rendering of a full webpage as PDF

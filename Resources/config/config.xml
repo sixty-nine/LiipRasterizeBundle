@@ -8,7 +8,11 @@
         <parameter key="liip_rasterize.phantomjs.binary">%liip_rasterize.root_dir%/Resources/bin/phantomjs</parameter>
         <parameter key="liip_rasterize.phantomjs.rasterize_script">%liip_rasterize.root_dir%/Resources/bin/rasterize.js</parameter>
         <parameter key="liip_rasterize.xvfb.display">99</parameter>
-        <parameter key="liip_rasterize.tmp_dir">%kernel.cache_dir%</parameter>
+        <parameter key="liip_rasterize.rasterize_viewport.width">1024</parameter>
+        <parameter key="liip_rasterize.rasterize_viewport.height">768</parameter>
+        <parameter key="liip_rasterize.cache.path">%kernel.cache_dir%</parameter>
+        <parameter key="liip_rasterize.cache.extension">png</parameter>
+        <parameter key="liip_rasterize.cache.ttl">300</parameter>
     </parameters>
 
 </container>
