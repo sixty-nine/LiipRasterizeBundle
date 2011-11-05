@@ -26,12 +26,19 @@ class Cache
 
     public function getPathFor($url, $size = array(), $file_extension = 'png')
     {
+        if (false === ($host = parse_url($url, PHP_URL_HOST))) {
+            throw new \InvalidArgumentException("Invalid URL '$url'");
+        }
+
+        // Group the files by host so that it's possible to clear the files of a given host
+        $filename = sha1($host) . '.' . sha1($url);
+
         if (!array_key_exists('width', $size) || !array_key_exists('height', $size)) {
 
             return
                 $this->cache_path .
                 $this->getCacheDirForOriginals() .
-                sha1($url) .
+                '/' . $filename .
                 '.' . $file_extension;
 
         } else {
@@ -39,7 +46,7 @@ class Cache
             return
                 $this->cache_path .
                 $this->getCacheDirForResized() .
-                sha1($url) .
+                '/' . $filename .
                 '.' . $size['width'] .
                 '.' . $size['height'] .
                 '.' . $file_extension;
