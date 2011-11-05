@@ -4,7 +4,7 @@ namespace Liip\RasterizeBundle\Tests\Helper;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class DemoControllerTest extends WebTestCase
+class RasterizerTest extends WebTestCase
 {
     protected $cache;
 
