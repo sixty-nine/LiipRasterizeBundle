@@ -1,4 +1,7 @@
 <style>
+h3 {
+    clear: both;
+}
 img {
     border:  1px solid #CDCDCD;
 }
@@ -38,4 +41,12 @@ div.thumb {
         {{rasterize("http://twig.sensiolabs.org/", 240, 180)}}
     </div>
 
+    <h3>The same using LiipImagineBundle</h3>
+
+    <div class="thumb"><img src="{{ 'http://php.net' | imagine_filter('rasterize') }}" /></div>
+    <div class="thumb"><img src="{{ 'http://symfony.com' | imagine_filter('rasterize') }}" /></div>
+    <div class="thumb"><img src="{{ 'http://phantomjs.org' | imagine_filter('rasterize') }}" /></div>
+    <div class="thumb"><img src="{{ 'http://twig.sensiolabs.org/' | imagine_filter('rasterize') }}" /></div>
 </div>
+
+

@@ -35,6 +35,12 @@
             <tag name="twig.extension" />
         </service>
 
+        <service id="liip_rasterize.imagine.dataloader" class="Liip\RasterizeBundle\Imagine\RasterizeDataLoader">
+            <tag name="liip_imagine.data.loader" loader="liip_rasterize" />
+            <argument type="service" id="imagine" />
+            <argument type="service" id="liip_rasterize.cache" />
+        </service>
+
     </services>
 
 </container>
