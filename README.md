@@ -201,6 +201,29 @@ What happens exactly when you request a screenshot is the following:
 
 The cache uses sha1 hashing to match URLs with cached files.
 
+### LiipImagineBundle
+
+TODO: write more doc...
+
+Create an imagine filter:
+
+``` yaml
+# app/config.yml
+liip_imagine:
+    filter_sets:
+        rasterize:
+            data_loader: liip_rasterize
+            quality: 75
+            format: png
+            filters:
+                thumbnail: { size: [120, 90], mode: outbound }
+```
+
+Enjoy:
+
+```
+{{ 'http://php.net' | imagine_filter('rasterize') }}
+```
 
 ### TODO
 
