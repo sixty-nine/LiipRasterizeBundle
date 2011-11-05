@@ -21,6 +21,7 @@ class RasterizeDataLoader implements LoaderInterface
     public function find($url)
     {
         $path = $this->cache->getPathFor($url);
+        // TODO: not working, need to rasterize the full size image. demo works because the cache already exists in the cache!
         return $this->imagine->open($path);
     }
 }
