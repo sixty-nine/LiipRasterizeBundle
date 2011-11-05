@@ -204,10 +204,10 @@ The cache uses sha1 hashing to match URLs with cached files.
 
 ### TODO
 
- - Allow an infinite TTL for cached files
+ - Integration with LiipImagineBundle
+ - Add redirection support in the Rasterizer
  - Create a sf command to clear the cache and invalidate cached files based on the URL
  - Add viewport options for the twig rasterize function
- - Add redirection support in the Rasterizer
  - Allow rendering of a full webpage as PDF
  - Investigate the rendering of Flash
  - Probably nothing works on Mac and Windows without some adaptations to the code

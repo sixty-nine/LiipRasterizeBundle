@@ -11,7 +11,7 @@ class Cache
     protected $cache_path;
 
     /**
-     * Time to live in seconds for temporary files
+     * Time to live in seconds for temporary files (0 = Forever)
      * @var int
      */
     protected $ttl;
@@ -50,7 +50,11 @@ class Cache
     public function hasValidFileFor($url, $size = array(), $file_extension = 'png')
     {
         $filename = $this->getPathFor($url, $size, $file_extension);
-        return file_exists($filename) && time() - filectime($filename) <= $this->ttl;
+        return
+            file_exists($filename)
+            && (
+                $this->ttl === 0 || time() - filectime($filename) <= $this->ttl
+            );
     }
 
     public function getCacheDir()
