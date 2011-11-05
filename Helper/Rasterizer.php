@@ -73,12 +73,12 @@ class Rasterizer
         // Create the screenshot of the URL in the original size
         if ($force || !$this->cache->hasValidFileFor($url)) {
 
-            $this->phantomjs->exec($this->rasterize_script, "$url $original_filename");
+            $out = $this->phantomjs->exec($this->rasterize_script, "$url $original_filename");
 
             // Check if the output file now exists, if it doesn't, then something went wrong with the rasterize script
             // Maybe the URL does not exist or it is empty
             if (!file_exists($original_filename)) {
-                throw new \Exception("PhantomJs could not create a screenshot of '$url'");
+                throw new \Exception("PhantomJs could not create a screenshot of '$url': " . print_r($out, true));
             }
         }
 
