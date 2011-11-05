@@ -158,7 +158,6 @@ liip_rasterize:
     rasterize_viewport.width: 1024
     rasterize_viewport.height: 768
     cache.path: %kernel.cache_dir%
-    cache.extension: png
     cache.ttl: 300
 ```
 
@@ -176,9 +175,6 @@ The options are:
 
  - `cache.path` - The path where to store the temporary files. The directory must be
     writtable by Apache. Usually you will use the application cache dir.
-
- - `cache.extension` - Extension to use for temporary files. This should go away with
-    future releases of the bundle.
 
  - `cache.ttl`- The time to live of temporary files in seconds. Defaults to 5 minutes.
 

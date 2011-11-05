@@ -16,21 +16,15 @@ class Cache
      */
     protected $ttl;
 
-    /**
-     * @var string
-     */
-    protected $extension;
-
-    public function __construct($cache_path, $file_extension = 'png', $ttl = 300)
+    public function __construct($cache_path, $ttl = 300)
     {
         $this->cache_path = $cache_path;
         $this->ttl = $ttl;
-        $this->extension = $file_extension;
 
         $this->checkAndCreateCacheDir($cache_path);
     }
 
-    public function getPathFor($url, $size = array())
+    public function getPathFor($url, $size = array(), $file_extension = 'png')
     {
         if (!array_key_exists('width', $size) || !array_key_exists('height', $size)) {
 
@@ -38,7 +32,7 @@ class Cache
                 $this->cache_path .
                 $this->getCacheDirForOriginals() .
                 sha1($url) .
-                '.' . $this->extension;
+                '.' . $file_extension;
 
         } else {
 
@@ -48,14 +42,14 @@ class Cache
                 sha1($url) .
                 '.' . $size['width'] .
                 '.' . $size['height'] .
-                '.' . $this->extension;
+                '.' . $file_extension;
 
         }
     }
 
-    public function hasValidFileFor($url, $size = array())
+    public function hasValidFileFor($url, $size = array(), $file_extension = 'png')
     {
-        $filename = $this->getPathFor($url, $size);
+        $filename = $this->getPathFor($url, $size, $file_extension);
         return file_exists($filename) && time() - filectime($filename) <= $this->ttl;
     }
 

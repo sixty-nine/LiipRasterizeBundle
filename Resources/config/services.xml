@@ -13,7 +13,6 @@
 
         <service id="liip_rasterize.cache" class="Liip\RasterizeBundle\Helper\Cache">
             <argument>%liip_rasterize.cache.path%</argument>
-            <argument>%liip_rasterize.cache.extension%</argument>
             <argument>%liip_rasterize.cache.ttl%</argument>
         </service>
 
