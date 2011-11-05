@@ -1,5 +1,8 @@
-var page = new WebPage(),
-    address, output, size;
+/*jslint devel: true, browser: true, sloppy: true, maxerr: 50, indent: 4 */
+/*global phantom, WebPage */
+var page, address, output, size, w, h;
+
+page = new WebPage();
 
 if (phantom.args.length < 2) {
     console.log('Usage: rasterize.js URL filename [ width height ]');
@@ -15,11 +18,10 @@ if (phantom.args.length < 2) {
             console.log('Unable to load the address!');
         } else {
             window.setTimeout(function () {
-		page.clipRect = { top: 0, left: 0, width: w, height: h };
+		        page.clipRect = { top: 0, left: 0, width: w, height: h };
                 page.render(output);
                 phantom.exit();
             }, 200);
         }
     });
 }
-
