@@ -33,9 +33,23 @@ class Cache
     public function getPathFor($url, $size = array())
     {
         if (!array_key_exists('width', $size) || !array_key_exists('height', $size)) {
-            return $this->cache_path . '/webss/original/' . sha1($url) . '.' . $this->extension;
+
+            return
+                $this->cache_path .
+                $this->getCacheDirForOriginals() .
+                sha1($url) .
+                '.' . $this->extension;
+
         } else {
-            return $this->cache_path . '/webss/resized/' . sha1($url) . '.' . $size['width'] . '.' . $size['height'] . '.' . $this->extension;
+
+            return
+                $this->cache_path .
+                $this->getCacheDirForResized() .
+                sha1($url) .
+                '.' . $size['width'] .
+                '.' . $size['height'] .
+                '.' . $this->extension;
+
         }
     }
 
@@ -45,6 +59,21 @@ class Cache
         return file_exists($filename) && time() - filectime($filename) <= $this->ttl;
     }
 
+    public function getCacheDir()
+    {
+        return $this->cache_path . '/liip_rasterize';
+    }
+
+    public function getCacheDirForOriginals()
+    {
+        return $this->getCacheDir() . '/original';
+    }
+
+    public function getCacheDirForResized()
+    {
+        return $this->getCacheDir() . '/resized';
+    }
+
     protected function checkAndCreateCacheDir()
     {
         if (!is_dir($this->cache_path) || !is_writable($this->cache_path)) {
@@ -52,9 +81,9 @@ class Cache
         }
 
         $paths = array(
-            $this->cache_path.'/webss',
-            $this->cache_path.'/webss/original',
-            $this->cache_path.'/webss/resized',
+            $this->getCacheDir(),
+            $this->getCacheDirForOriginals(),
+            $this->getCacheDirForResized(),
         );
 
         foreach($paths as $path) {
