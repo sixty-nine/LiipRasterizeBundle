@@ -37,21 +37,40 @@ class Rasterizer
     protected $height;
 
     /**
+     * @var string
+     */
+    protected $filetype;
+
+    /**
      * @throws \InvalidArgumentException
      * @param \Liip\RasterizeBundle\Helper\PhantomJs $phantomjs instance of the PhantomJS helper
      * @param \Liip\RasterizeBundle\Helper\Cache $cache
      * @param $rasterize_script The path of the rsaterize script to use
-     * @param int $width The width of the viewport
-     * @param int $height The height of the viewport
+     * @param int $viewport_width The width of the viewport
+     * @param int $viewport_height The height of the viewport
+     * @param string $output_file_type The type of the output file (png|jpeg)
      * @return \Liip\RasterizeBundle\Helper\Rasterizer
      */
-    public function __construct(PhantomJs $phantomjs, Cache $cache, $rasterize_script, $width = 1024, $height = 768)
+    public function __construct
+    (
+        PhantomJs $phantomjs,
+        Cache $cache,
+        $rasterize_script,
+        $viewport_width = 1024,
+        $viewport_height = 768,
+        $output_file_type = 'png'
+    )
     {
         $this->cache = $cache;
         $this->phantomjs = $phantomjs;
         $this->rasterize_script = $rasterize_script;
-        $this->width = $width;
-        $this->height = $height;
+        $this->width = $viewport_width;
+        $this->height = $viewport_height;
+
+        if (!in_array($output_file_type, array('png', 'jpeg'))) {
+            throw new \InvalidArgumentException("Invalid output file type. It must be either png or jpeg, got '$output_file_type'");
+        }
+        $this->filetype = $output_file_type;
     }
 
     /**
@@ -60,15 +79,22 @@ class Rasterizer
      * @param int $width Width of the output image
      * @param int $height Height of the output image
      * @param bool $force Set to true to force rendering even if a valid matching file is found in the cache
+     * @param string|null $output_file_type Set to null to use the default, or use either png or jpeg.
      * @return string The file content of the rendered PNG
      */
-    public function rasterize($url, $width = 1024, $height = 768, $force = false)
+    public function rasterize($url, $width = 1024, $height = 768, $force = false, $output_file_type = null)
     {
         // TODO: handle redirects in rasterize script
 
+        if(!is_null($output_file_type) && in_array($output_file_type, array('png', 'jpeg'))) {
+            $filetype = $output_file_type;
+        } else {
+            $filetype = $this->filetype;
+        }
+
         $size = array('width' => $width, 'height' => $height);
-        $original_filename = $this->cache->getPathFor($url);
-        $resized_filename = $this->cache->getPathFor($url, $size);
+        $original_filename = $this->cache->getPathFor($url, array(), $filetype);
+        $resized_filename = $this->cache->getPathFor($url, $size, $filetype);
 
         // Create the screenshot of the URL in the original size
         if ($force || !$this->cache->hasValidFileFor($url)) {
