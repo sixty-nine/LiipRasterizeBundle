@@ -31,27 +31,27 @@ class Cache
         }
 
         // Group the files by host so that it's possible to clear the files of a given host
-        $filename = sha1($host) . '.' . sha1($url);
+        $filename = sha1($host) . '_' . sha1($url);
 
         if (!array_key_exists('width', $size) || !array_key_exists('height', $size)) {
 
-            return
-                $this->cache_path .
+            $path =
                 $this->getCacheDirForOriginals() .
                 '/' . $filename .
                 '.' . $file_extension;
 
         } else {
 
-            return
-                $this->cache_path .
+            $path =
                 $this->getCacheDirForResized() .
                 '/' . $filename .
-                '.' . $size['width'] .
-                '.' . $size['height'] .
+                '_' . $size['width'] .
+                '_' . $size['height'] .
                 '.' . $file_extension;
 
         }
+
+        return $path;
     }
 
     public function hasValidFileFor($url, $size = array(), $file_extension = 'png')

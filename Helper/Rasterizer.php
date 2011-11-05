@@ -97,7 +97,7 @@ class Rasterizer
         $resized_filename = $this->cache->getPathFor($url, $size, $filetype);
 
         // Create the screenshot of the URL in the original size
-        if ($force || !$this->cache->hasValidFileFor($url)) {
+        if ($force || !$this->cache->hasValidFileFor($url, array(), $filetype)) {
 
             $out = $this->phantomjs->exec($this->rasterize_script, "$url $original_filename");
 
@@ -109,7 +109,7 @@ class Rasterizer
         }
 
         // Create a resized version of the screenshot
-        if ($force || !$this->cache->hasValidFileFor($url, $size)) {
+        if ($force || !$this->cache->hasValidFileFor($url, $size, $filetype)) {
             $this->resize($original_filename, $resized_filename, $width, $height);
         }
         
@@ -118,6 +118,9 @@ class Rasterizer
 
     protected function resize($in, $out, $width, $height)
     {
+        var_dump(dirname($out));
+        assert(file_exists($in));
+        assert(is_writable(dirname($out)));
         $image = imagecreatefrompng($in);
         $new_image = imagecreatetruecolor($width, $height);
         imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, imagesx($image), imagesy($image));
