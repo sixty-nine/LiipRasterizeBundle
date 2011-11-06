@@ -4,6 +4,8 @@
 
 **THIS BUNDLE IS STILL UNDER DEVELOPMENT !**
 
+This is another version of the bundle that integrates with LiipImagineBundle.
+
 This bundle provides an easy way to generate screen shots of web pages or render their content
 to a PDF file.
 
@@ -105,7 +107,7 @@ Finally, add the following to your routing file:
 ``` yaml
 # app/config/routing.yml
 
-DreamcraftWebScreenshotBundle:
+LiipRasterizeBundle:
     resource: "@LiipRasterizeBundle/Resources/config/routing.xml"
     prefix:   /liip-rasterize
 ```
@@ -114,36 +116,16 @@ DreamcraftWebScreenshotBundle:
 
 Point a web browser to
 
-    http://your.application.url/liip-rasterize/rasterize/240/180?url=http%3A%2F%2Fphp.net
-
-You should see a thumbnail of a screenshot of the php.net website. Or else... exceptions,
-don't hesitate to report them.
+    http://your.application.url/liip-rasterize/rasterize
 
 ## Basic usage
 
 ### Demo
 
-Give this URL a try:
-
-    http://your.application.url/liip-rasterize
-
-
-### Get a screenshot of a web page
-
-To get a screenshot of a webpage you can use the following URL:
-
-    http://your.application.url/liip-rasterize/rasterize/<width>/<height>?url=<url>
-
-The images take some time to load the first time, then they are cached. See below for more details.
-
-
 ### Insert a screenshot in a Twig template
 
-The Twig function `rasterize(url [ , width , height ] )` allows to insert screenshots directly
-in a Twig template.
-
 ```
-{{ rasterize( "http://php.net", 240, 180 ) }}
+{{ 'http://php.net' | imagine_filter('liip_rasterize') }}
 ```
 
 ## Configuration
@@ -157,8 +139,6 @@ liip_rasterize:
     xvfb.display: 99
     rasterize_viewport.width: 1024
     rasterize_viewport.height: 768
-    cache.path: %kernel.cache_dir%
-    cache.ttl: 300
 ```
 
 The options are:
@@ -173,34 +153,6 @@ The options are:
  - `rasterize_viewport.width`, `rasterize_viewport.height` - Dimensions of the viewport to
     use when the screenshots of the webpages are rendered.
 
- - `cache.path` - The path where to store the temporary files. The directory must be
-    writtable by Apache. Usually you will use the application cache dir.
-
- - `cache.ttl`- The time to live of temporary files in seconds. Defaults to 5 minutes.
-
-
-### How images are cached
-
-Rendering a screenshot of a webpage is time consuming because the page needs to be fetched and
-rendered by PhantomJS. On the other hand resizing the images is an easy and fast process.
-
-This is why this bundle uses a two step caching mechanism for the images.
-
-What happens exactly when you request a screenshot is the following:
-
- - the bundle checks if a full size screenshot exists in the cache
-
- - if not or it has expired, PhantomJS is used to fetch and render the image
-
- - the bundle checks if a resized version of the image that fits the request exists in the cache
-
- - if not or it has expired, the bundle creates a resized version of the full size screenshot
-
- - the resized version of the image is returned
-
-
-The cache uses sha1 hashing to match URLs with cached files.
-
 ### LiipImagineBundle
 
 TODO: write more doc...
@@ -211,7 +163,7 @@ Create an imagine filter:
 # app/config.yml
 liip_imagine:
     filter_sets:
-        rasterize:
+        liip_rasterize:
             data_loader: liip_rasterize
             quality: 75
             format: png
@@ -227,7 +179,6 @@ Enjoy:
 
 ### TODO
 
- - Integration with LiipImagineBundle
  - Add redirection support in the Rasterizer
  - Create a sf command to clear the cache and invalidate cached files based on the URL
  - Add viewport options for the twig rasterize function

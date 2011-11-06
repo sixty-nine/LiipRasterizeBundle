@@ -4,24 +4,39 @@ namespace Liip\RasterizeBundle\Imagine;
 
 use Liip\ImagineBundle\Imagine\Data\Loader\LoaderInterface,
     Imagine\Image\ImagineInterface,
-    Liip\RasterizeBundle\Helper\Cache;
+    Liip\RasterizeBundle\Imagine\CachePathResolver,
+    Liip\RasterizeBundle\Helper\Rasterizer;
 
 class RasterizeDataLoader implements LoaderInterface
 {
     protected $imagine;
 
-    protected $cache;
+    protected $cachePathResolver;
 
-    public function __construct(ImagineInterface $imagine, Cache $cache)
+    protected $rasterizer;
+
+    /**
+     * @var string
+     */
+    protected $rootPath;
+
+    protected $cachePrefix;
+
+    public function __construct(ImagineInterface $imagine, CachePathResolver $cachePathResolver, Rasterizer $rasterizer, $rootPath, $cachePrefix)
     {
         $this->imagine = $imagine;
-        $this->cache = $cache;
+        $this->cachePathResolver = $cachePathResolver;
+        $this->rasterizer = $rasterizer;
+        $this->rootPath = realpath($rootPath);
+        $this->cachePrefix = $cachePrefix;
     }
 
     public function find($url)
     {
-        $path = $this->cache->getPathFor($url);
-        // TODO: not working, need to rasterize the full size image. demo works because the cache already exists in the cache!
+        $path = $this->cachePathResolver->getPathFor($url);
+        $path = $this->rootPath.$this->cachePrefix.'/liip_rasterize/'.ltrim($path, '/');
+
+        $this->rasterizer->rasterize($url, $path);
         return $this->imagine->open($path);
     }
 }

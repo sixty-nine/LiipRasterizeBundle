@@ -11,23 +11,15 @@
             <argument>%liip_rasterize.xvfb.display%</argument>
         </service>
 
-        <service id="liip_rasterize.cache" class="Liip\RasterizeBundle\Helper\Cache">
-            <argument>%liip_rasterize.cache.path%</argument>
-            <argument>%liip_rasterize.cache.ttl%</argument>
-        </service>
-
         <service id="liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Helper\Rasterizer">
             <argument type="service" id="liip_rasterize.phantomjs" />
-            <argument type="service" id="liip_rasterize.cache" />
             <argument>%liip_rasterize.phantomjs.rasterize_script%</argument>
             <argument>%liip_rasterize.rasterize_viewport.width%</argument>
             <argument>%liip_rasterize.rasterize_viewport.height%</argument>
         </service>
 
         <service id="liip_rasterize.default.controller" class="Liip\RasterizeBundle\Controller\DefaultController">
-            <argument type="service" id="router" />
             <argument type="service" id="templating" />
-            <argument type="service" id="liip_rasterize.rasterizer" />
         </service>
 
         <service id="twig.extension.liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Twig\Extension\RasterizerExtension" public="true">
@@ -38,7 +30,10 @@
         <service id="liip_rasterize.imagine.dataloader" class="Liip\RasterizeBundle\Imagine\RasterizeDataLoader">
             <tag name="liip_imagine.data.loader" loader="liip_rasterize" />
             <argument type="service" id="imagine" />
-            <argument type="service" id="liip_rasterize.cache" />
+            <argument type="service" id="liip_imagine.cache.path.resolver" />
+            <argument type="service" id="liip_rasterize.rasterizer" />
+            <argument>%liip_imagine.web_root%</argument>
+            <argument>%liip_imagine.cache_prefix%</argument>
         </service>
 
     </services>

@@ -8,12 +8,4 @@
         <default key="_controller">liip_rasterize.default.controller:demoAction</default>
     </route>
 
-    <route id="LiipRasterizeBundle_rasterize" pattern="/rasterize/{width}/{height}">
-        <default key="_controller">liip_rasterize.default.controller:indexAction</default>
-        <default key="width">1024</default>
-        <default key="height">768</default>
-        <requirement key="width">\d+</requirement>
-        <requirement key="height">\d+</requirement>
-    </route>
-
 </routes>

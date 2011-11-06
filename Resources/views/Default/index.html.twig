@@ -21,32 +21,10 @@ div.thumb {
     <p>The first time the script loads the images take some seconds to load, then the page reloads very fast because the images are cached for 5 minutes.</p>
     <p>These are the websites of some of the technologies used here:</p>
 
-    <div class="thumb">
-        <b>http://php.net</b><br/>
-        {{rasterize("http://php.net", 240, 180)}}
-    </div>
-
-    <div class="thumb">
-        <b>http://symfony.com</b><br/>
-        {{rasterize("http://symfony.com", 240, 180)}}
-    </div>
-
-    <div class="thumb">
-        <b>http://phantomjs.org</b><br/>
-        {{rasterize("http://phantomjs.org", 240, 180)}}
-    </div>
-
-    <div class="thumb">
-        <b>http://twig.sensiolabs.org/</b><br/>
-        {{rasterize("http://twig.sensiolabs.org/", 240, 180)}}
-    </div>
-
-    <h3>The same using LiipImagineBundle</h3>
-
-    <div class="thumb"><img src="{{ 'http://php.net' | imagine_filter('rasterize') }}" /></div>
-    <div class="thumb"><img src="{{ 'http://symfony.com' | imagine_filter('rasterize') }}" /></div>
-    <div class="thumb"><img src="{{ 'http://phantomjs.org' | imagine_filter('rasterize') }}" /></div>
-    <div class="thumb"><img src="{{ 'http://twig.sensiolabs.org/' | imagine_filter('rasterize') }}" /></div>
+    <div class="thumb"><img src="{{ 'http://php.net' | imagine_filter('liip_rasterize') }}" /></div>
+    <div class="thumb"><img src="{{ 'http://symfony.com' | imagine_filter('liip_rasterize') }}" /></div>
+    <div class="thumb"><img src="{{ 'http://phantomjs.org' | imagine_filter('liip_rasterize') }}" /></div>
+    <div class="thumb"><img src="{{ 'http://twig.sensiolabs.org/' | imagine_filter('liip_rasterize') }}" /></div>
 </div>
 
 
