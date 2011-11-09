@@ -121,9 +121,9 @@ Create an imagine filter:
 ``` yaml
 # app/config.yml
 liip_imagine:
-    cache: liip_raterize.cache
     filter_sets:
         liip_rasterize:
+            cache: liip_raterize.cache
             data_loader: liip_rasterize.loader
             format: png
             filters:
