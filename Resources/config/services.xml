@@ -6,10 +6,14 @@
 
     <services>
 
+        <!-- PhantomJs wrapper service -->
+
         <service id="liip_rasterize.phantomjs" class="Liip\RasterizeBundle\Helper\PhantomJs">
             <argument>%liip_rasterize.phantomjs.binary%</argument>
             <argument>%liip_rasterize.xvfb.display%</argument>
         </service>
+
+        <!-- Raterizer service -->
 
         <service id="liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Helper\Rasterizer">
             <argument type="service" id="liip_rasterize.phantomjs" />
@@ -18,22 +22,26 @@
             <argument>%liip_rasterize.rasterize_viewport.height%</argument>
         </service>
 
+        <!-- LiipImagine custom cache resolver -->
+
+        <service id="liip_rasterize.imagine.cacheresolver" class="Liip\RasterizeBundle\Imagine\Cache\Resolver\RasterizeResolver">
+            <tag name="liip_imagine.cache.resolver" resolver="liip_rasterize.cache" />
+            <argument type="service" id="filesystem" />
+        </service>
+
+        <!-- LiipImagine custom data loader -->
+
+        <service id="liip_rasterize.imagine.dataloader" class="Liip\RasterizeBundle\Imagine\Data\Loader\RasterizeDataLoader">
+            <tag name="liip_imagine.data.loader" loader="liip_rasterize.loader" />
+            <argument type="service" id="liip_imagine" />
+            <argument type="service" id="liip_rasterize.rasterizer" />  
+            <argument>%kernel.cache_dir%</argument>
+        </service>
+
+        <!-- Demo controller -->
+
         <service id="liip_rasterize.default.controller" class="Liip\RasterizeBundle\Controller\DefaultController">
             <argument type="service" id="templating" />
-        </service>
-
-        <service id="twig.extension.liip_rasterize.rasterizer" class="Liip\RasterizeBundle\Twig\Extension\RasterizerExtension" public="true">
-            <argument type="service" id="router" />
-            <tag name="twig.extension" />
-        </service>
-
-        <service id="liip_rasterize.imagine.dataloader" class="Liip\RasterizeBundle\Imagine\RasterizeDataLoader">
-            <tag name="liip_imagine.data.loader" loader="liip_rasterize" />
-            <argument type="service" id="imagine" />
-            <argument type="service" id="liip_imagine.cache.path.resolver" />
-            <argument type="service" id="liip_rasterize.rasterizer" />
-            <argument>%liip_imagine.web_root%</argument>
-            <argument>%liip_imagine.cache_prefix%</argument>
         </service>
 
     </services>

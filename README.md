@@ -4,10 +4,8 @@
 
 **THIS BUNDLE IS STILL UNDER DEVELOPMENT !**
 
-This is another version of the bundle that integrates with LiipImagineBundle.
-
-This bundle provides an easy way to generate screen shots of web pages or render their content
-to a PDF file.
+This bundle provides a custom data loader for the LiipImagineBundle that allows to generate
+screenshots of web pages on the fly and pass the images to Imagine filters.
 
 ## Dependencies
 
@@ -49,7 +47,9 @@ By default this bundle uses the display number 99. You can change this using the
 
 ## Installation
 
-Installation depends on how your project is setup:
+**This bundle depends on the LiipImagineBundle.**
+
+Please refer to the [install instructions](https://github.com/liip/LiipImagineBundle/blob/master/README.md) of LiipImagineBundle to install it.
 
 ### Step 1: Installation
 
@@ -102,6 +102,8 @@ public function registerBundles()
 
 ### Step 4: Register the bundle's routes
 
+(This step is optional, if you don't need the demo route, skip this)
+
 Finally, add the following to your routing file:
 
 ``` yaml
@@ -112,15 +114,29 @@ LiipRasterizeBundle:
     prefix:   /liip-rasterize
 ```
 
-### Step 5: Test everything works fine
+### Step 5: Create the imagine filter
 
-Point a web browser to
+Create an imagine filter:
 
-    http://your.application.url/liip-rasterize/rasterize
-
+``` yaml
+# app/config.yml
+liip_imagine:
+    cache: liip_raterize.cache
+    filter_sets:
+        liip_rasterize:
+            data_loader: liip_rasterize.loader
+            format: png
+            filters:
+                thumbnail: { size: [120, 90], mode: outbound }
+                # You can add more filters here...
+```
 ## Basic usage
 
 ### Demo
+
+If you enabled the demo route in the step 4 above, you can point a web browser to:
+
+    http://your.application.url/liip-rasterize
 
 ### Insert a screenshot in a Twig template
 
@@ -153,35 +169,9 @@ The options are:
  - `rasterize_viewport.width`, `rasterize_viewport.height` - Dimensions of the viewport to
     use when the screenshots of the webpages are rendered.
 
-### LiipImagineBundle
-
-TODO: write more doc...
-
-Create an imagine filter:
-
-``` yaml
-# app/config.yml
-liip_imagine:
-    filter_sets:
-        liip_rasterize:
-            data_loader: liip_rasterize
-            quality: 75
-            format: png
-            filters:
-                thumbnail: { size: [120, 90], mode: outbound }
-```
-
-Enjoy:
-
-```
-{{ 'http://php.net' | imagine_filter('rasterize') }}
-```
-
 ### TODO
 
- - Add redirection support in the Rasterizer
- - Create a sf command to clear the cache and invalidate cached files based on the URL
  - Add viewport options for the twig rasterize function
- - Allow rendering of a full webpage as PDF
+ - Allow to change the format of images to jpeg since PhantomJS support it
  - Investigate the rendering of Flash
  - Probably nothing works on Mac and Windows without some adaptations to the code

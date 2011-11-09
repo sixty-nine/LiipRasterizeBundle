@@ -10,8 +10,6 @@
         <parameter key="liip_rasterize.xvfb.display">99</parameter>
         <parameter key="liip_rasterize.rasterize_viewport.width">1024</parameter>
         <parameter key="liip_rasterize.rasterize_viewport.height">768</parameter>
-        <parameter key="liip_rasterize.cache.path">%kernel.cache_dir%</parameter>
-        <parameter key="liip_rasterize.cache.ttl">300</parameter>
     </parameters>
 
 </container>

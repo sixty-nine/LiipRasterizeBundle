@@ -2,11 +2,12 @@
 
 namespace Liip\RasterizeBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand,
+    Symfony\Component\Console\Input\InputArgument,
+    Symfony\Component\Console\Input\InputInterface,
+    Symfony\Component\Console\Input\InputOption,
+    Symfony\Component\Console\Output\OutputInterface,
+    Symfony\Component\Console\Helper\DialogHelper;
 
 class ClearCacheCommand extends ContainerAwareCommand
 {
@@ -25,16 +26,24 @@ class ClearCacheCommand extends ContainerAwareCommand
         $host = $input->getArgument('host');
         $files = $this->getFilesForHost($host);
         $fs = $this->getContainer()->get('filesystem');
-        
+        $dialog = new DialogHelper();
+
+        if (!count($files)) {
+            $output->writeln('<error>No matching files found</error>');
+            return 1;
+        }
+
+        $question = 'Do you want to remove ' . count($files) . (count($files) == 1 ? ' file' : ' files') . '? [yes|no]: ';
+        if ($dialog->ask($output, $question, 'no') !== 'yes') {
+            $output->writeln('<error>Command aborted</error>');
+            return 1;
+        }
+
         foreach($files as $file) {
             $fs->remove($this->getCachePath() . '/' . $file);
         }
 
-        if (is_null($host)) {
-            $output->writeln("All the liip_rasterize cached files have been removed");
-        } else {
-            $output->writeln("The liip_rasterize cached files for '$host' have been removed");
-        }
+        $output->writeln('<info>Done</info>');
     }
 
     protected function getCachePath()

@@ -1,15 +1,15 @@
 <?php
 
-namespace Liip\RasterizeBundle\Imagine;
+namespace Liip\RasterizeBundle\Imagine\Cache\Resolver;
 
-use Liip\ImagineBundle\Imagine\CachePathResolver as BaseCachePathResolver,
-    Symfony\Component\HttpFoundation\Request;
+use Liip\ImagineBundle\Imagine\Cache\Resolver\WebPathResolver as BaseResolver;
+use Symfony\Component\HttpFoundation\Request;
 
-class CachePathResolver extends BaseCachePathResolver
+class RasterizeResolver extends BaseResolver
 {
     protected $filePrefix = 'liip_rasterize';
 
-    public function getPathFor($url, $format = 'png')
+    public function getFilenameFor($url, $format = 'png')
     {
         if (false === ($host = parse_url($url, PHP_URL_HOST))) {
             throw new \InvalidArgumentException("Invalid URL '$url'");
@@ -22,9 +22,8 @@ class CachePathResolver extends BaseCachePathResolver
     public function resolve(Request $request, $targetPath, $filter)
     {
         if ($filter === 'liip_rasterize') {
-            $targetPath = $this->getPathFor($targetPath);
+            $targetPath = $this->getFilenameFor($targetPath);
         }
         return parent::resolve($request, $targetPath, $filter);
     }
-
 }
