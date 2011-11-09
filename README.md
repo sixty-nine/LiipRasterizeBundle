@@ -1,5 +1,7 @@
 # LiipRasterizeBundle
 
+** THIS IS A STANDALONE VERSION OF THE BUNDLE, PLEASE CHECK THE [VERSION INTEGRATED IN LIIPIMAGINEBUNDLE](https://github.com/sixty-nine/LiipRasterizeBundle/tree/liipimagine-integration) **
+
 ## Introduction
 
 **THIS BUNDLE IS STILL UNDER DEVELOPMENT !**
